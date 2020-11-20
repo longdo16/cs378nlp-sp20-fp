@@ -155,6 +155,8 @@ def evaluate(answers, predictions, skip_no_answer=False):
     Returns:
         EM and F1 maximized over gold answer spans.
     """
+    print('Answer: ', answers)
+    print('Predictions: ', predictions)
     f1 = exact_match = total = 0
     for qid, ground_truths in answers.items():
         if qid not in predictions:
