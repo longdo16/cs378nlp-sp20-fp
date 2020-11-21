@@ -12,7 +12,7 @@ from torch.utils.data import Dataset
 from random import shuffle
 from utils import cuda, load_dataset
 from torch.utils.data import Dataset, DataLoader
-
+import transformers
 
 PAD_TOKEN = '[PAD]'
 UNK_TOKEN = '[UNK]'
