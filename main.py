@@ -574,6 +574,13 @@ def train_BERTQA(args):
     for epoch in range(0, epochs): 
 
         for qid, question, start, end, answer, start_tensor, end_tensor, ids_tensor, mask, token_type_ids in train_dataset:
+
+            start_tensor = start_tensor.to(device)
+            end_tensor = end_tensor.to(device)
+            ids_tensor = ids_tensor.to(device)
+            mask = mask.to(device)
+            token_type_ids = token_type_ids.to(device)
+
             outputs = model(ids_tensor, mask, token_type_ids, start_tensor, end_tensor)
 
             model.zero_grad()
