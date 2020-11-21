@@ -584,7 +584,8 @@ def train_BERTQA(args):
             outputs = model(ids_tensor, mask, token_type_ids, start_tensor, end_tensor)
 
             model.zero_grad()
-            outputs.loss().backward()
+            loss = outputs.loss
+            loss.backward()
             optim.step()
 
     torch.save(model.state_dict(), args.model_path)
