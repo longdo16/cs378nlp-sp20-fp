@@ -568,7 +568,6 @@ def train_BERTQA(args):
     optim = AdamW(model.parameters(), lr = 1e-4)
 
     train_dataset = load_data(args.train_path, 128)
-    valid_dataset = load_data(args.args.dev_path, 128)
 
     epochs = 4
 
