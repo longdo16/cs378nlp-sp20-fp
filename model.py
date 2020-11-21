@@ -7,8 +7,8 @@ Author:
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-import transformers
-from transformers import BertForQuestionAnswering
+# import transformers
+# from transformers import BertForQuestionAnswering
 
 from utils import cuda, load_cached_embeddings
 from torch.nn.utils.rnn import pack_padded_sequence, pad_packed_sequence
@@ -174,6 +174,7 @@ class BaselineReader(nn.Module):
 
         self.args = args
         self.pad_token_id = args.pad_token_id
+        print(args.pad_token_id)
 
         # Initialize embedding layer (1)
         self.embedding = nn.Embedding(args.vocab_size, args.embedding_dim)

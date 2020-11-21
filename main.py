@@ -29,8 +29,8 @@ import numpy as np
 import torch.nn as nn
 import torch.nn.functional as F
 import torch.optim as optim
-import transformers
-from transformers import AdamW
+# import transformers
+# from transformers import AdamW
 from tqdm import tqdm
 
 from data import QADataset, Tokenizer, Vocabulary

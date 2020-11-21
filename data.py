@@ -12,7 +12,7 @@ from torch.utils.data import Dataset
 from random import shuffle
 from utils import cuda, load_dataset
 from torch.utils.data import Dataset, DataLoader
-import transformers
+# import transformers
 
 PAD_TOKEN = '[PAD]'
 UNK_TOKEN = '[UNK]'
@@ -161,10 +161,6 @@ class QADataset(Dataset):
             passage = [
                 token.lower() for (token, offset) in elem['context_tokens']
             ][:self.args.max_context_length]
-            print('Context: ', elem['context'])
-            print()
-            print()
-            
 
             # Each passage has several questions associated with it.
             # Additionally, each question has multiple possible answer spans.
@@ -182,11 +178,6 @@ class QADataset(Dataset):
                 samples.append(
                     (qid, passage, question, answer_start, answer_end)
                 )
-                print(qa['detected_answers'])
-                print('Answer: ', qa['detected_answers'][0]['text'])
-                print('Question: ', qa['question'])
-                print('Span: ', qa['detected_answers'][0]['token_spans'][0])
-            break
                 
         return samples
 
@@ -300,8 +291,6 @@ class QADataset(Dataset):
                 'start_positions': cuda(self.args, start_positions).long(),
                 'end_positions': cuda(self.args, end_positions).long()
             }
-
-            raise Exception("Only implemented in subclasses")
 
             if no_more_data:
                 if bsz > 0:
