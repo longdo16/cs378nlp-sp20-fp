@@ -38,6 +38,7 @@ from data import QADataset, Tokenizer, Vocabulary
 from model import BaselineReader
 from model import BERTQA
 from utils import cuda, search_span_endpoints, unpack
+from data import load_data
 
 
 _TQDM_BAR_SIZE = 75
