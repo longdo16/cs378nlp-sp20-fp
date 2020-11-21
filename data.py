@@ -345,7 +345,7 @@ class DataBERT(Dataset):
         self.tokenizer = transformers.BertTokenizer.from_pretrained('bert-base-uncased', do_lower_case = True)
         self.max_len = 364
         self.data_list = []
-        helper(self.data_list, self.elems, self.tokenizer, max_len)
+        helper(self.data_list, self.elems, self.tokenizer, self.max_len)
 
     def __len__(self):
         return len(self.data_list)
