@@ -221,8 +221,7 @@ def _select_model(args):
         Instance of a PyTorch model supplied with args.
     """
     if args.model == 'baseline':
-        # return BaselineReader(args)
-
+        return BaselineReader(args)
     else:
         raise RuntimeError(f'model \'{args.model}\' not recognized!')
 
