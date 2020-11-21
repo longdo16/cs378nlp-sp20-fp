@@ -36,6 +36,7 @@ from tqdm import tqdm
 from data import QADataset, Tokenizer, Vocabulary
 
 from model import BaselineReader
+from model import BERTQA
 from utils import cuda, search_span_endpoints, unpack
 
 
