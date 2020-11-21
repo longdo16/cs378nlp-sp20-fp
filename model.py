@@ -7,6 +7,8 @@ Author:
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
+import transformers
+from transformers import BertForQuestionAnswering
 
 from utils import cuda, load_cached_embeddings
 from torch.nn.utils.rnn import pack_padded_sequence, pad_packed_sequence
@@ -323,3 +325,12 @@ class BaselineReader(nn.Module):
         )  # [batch_size, p_len]
 
         return start_logits, end_logits  # [batch_size, p_len], [batch_size, p_len]
+
+# BERT model for QA
+class BERTQA(nn.Module):
+	def __init__(self):
+		super().__init__()
+		self.bert = transformers.BertForQuestionAnswering.from_pretrained('bert-base-uncased', return_dict = True)
+
+	def forward(self, ids, mask, token_type_ids, starts , ends):
+		return self.bert(input_ids = ids, attention_mask = mask, token_type_ids = token_type_ids, start_positions = starts, end_positions = ends)

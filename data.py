@@ -11,6 +11,7 @@ import torch
 from torch.utils.data import Dataset
 from random import shuffle
 from utils import cuda, load_dataset
+from torch.utils.data import Dataset, DataLoader
 
 
 PAD_TOKEN = '[PAD]'
@@ -160,6 +161,10 @@ class QADataset(Dataset):
             passage = [
                 token.lower() for (token, offset) in elem['context_tokens']
             ][:self.args.max_context_length]
+            print('Context: ', elem['context'])
+            print()
+            print()
+            
 
             # Each passage has several questions associated with it.
             # Additionally, each question has multiple possible answer spans.
@@ -177,6 +182,11 @@ class QADataset(Dataset):
                 samples.append(
                     (qid, passage, question, answer_start, answer_end)
                 )
+                print(qa['detected_answers'])
+                print('Answer: ', qa['detected_answers'][0]['text'])
+                print('Question: ', qa['question'])
+                print('Span: ', qa['detected_answers'][0]['token_spans'][0])
+            break
                 
         return samples
 
@@ -291,6 +301,8 @@ class QADataset(Dataset):
                 'end_positions': cuda(self.args, end_positions).long()
             }
 
+            raise Exception("Only implemented in subclasses")
+
             if no_more_data:
                 if bsz > 0:
                     # This is the last batch (smaller than `batch_size`)
@@ -324,3 +336,42 @@ class QADataset(Dataset):
     
     def __len__(self):
         return len(self.samples)
+
+# Data loader for BERT
+
+class DataBERT(Dataset):
+    def __init__(self, path):
+        self.meta, self.elems = load_dataset(path)
+        self.tokenizer = transformers.BertTokenizer.from_pretrained('bert-base-uncased', do_lower_case = True)
+        self.max_len = 364
+        self.data_list = []
+        helper(self.data_list, self.elems, self.tokenizer, max_len)
+
+    def __len__(self):
+        return len(self.data_list)
+
+    def __getitem__(self, idx):
+        return self.data_list[idx]
+
+def helper(data_list, datas, tokenizer, max_len):
+    for data in datas:
+        passage = data['context']
+
+        for qa in data['qas']:
+            qid = qa['qid']
+            question = qa['question']
+            start, end = qa['detected_answers'][0]['token_spans'][0]
+            answer = qa['detected_answers'][0]['text']
+
+            inputs = tokenizer.encode_plus(question, answer, add_special_tokens = True, max_length = max_len, pad_to_max_length = True)
+
+            ids = inputs['input_ids']
+            mask = inputs['attention_mask']
+            token_type_ids = inputs['token_type_ids']
+
+            data_list.append((qid, question, start, end, answer, torch.tensor(start), torch.tensor(end), torch.tensor(ids), torch.tensor(mask), torch.tensor(token_type_ids)))
+
+def load_data(path, batch_size = 128):
+    dataset = DataBERT(path)
+    return DataLoader(dataset, batch_size = batch_size, shuffle = True)
+

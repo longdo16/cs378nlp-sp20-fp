@@ -29,6 +29,8 @@ import numpy as np
 import torch.nn as nn
 import torch.nn.functional as F
 import torch.optim as optim
+import transformers
+from transformers import AdamW
 from tqdm import tqdm
 
 from data import QADataset, Tokenizer, Vocabulary
@@ -220,6 +222,8 @@ def _select_model(args):
     """
     if args.model == 'baseline':
         return BaselineReader(args)
+    elif args.model == 'BERTQA':
+        return BERTQA()
     else:
         raise RuntimeError(f'model \'{args.model}\' not recognized!')
 
@@ -434,6 +438,8 @@ def write_predictions(args, model, dataset):
                 # Grab predicted span.
                 pred_span = ' '.join(passage[start_index:(end_index + 1)])
 
+                print(' '.join(passage))
+
                 # Add prediction to outputs.
                 outputs.append({'qid': qid, 'answer': pred_span})
 
@@ -548,6 +554,35 @@ def main(args):
         print(f'compute EM/F1 with: \'{eval_cmd}\'')
         print()
 
+def main_temp(args):
+    train_BERTQA(args)
+
+def train_BERTQA(args):
+    model = BERTQA()
+
+    device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
+
+    model.to(device)
+    optim = AdamW(model.parameters(), lr = 1e-4)
+
+    train_dataset = load_data(args.train_path, 128)
+    valid_dataset = load_data(args.args.dev_path, 128)
+
+    epochs = 4
+
+    for epoch in range(0, epochs): 
+
+        for qid, question, start, end, answer, start_tensor, end_tensor, ids_tensor, mask, token_type_ids in train_dataset:
+            outputs = model(ids_tensor, mask, token_type_ids, start_tensor, end_tensor)
+
+            model.zero_grad()
+            outputs.loss().backward()
+            optim.step()
+
+    torch.save(model.state_dict(), args.model_path)
+
+
 
 if __name__ == '__main__':
-    main(parser.parse_args())
+    # main(parser.parse_args())
+    main_temp(parser.parse_args())
