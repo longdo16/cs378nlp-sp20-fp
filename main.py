@@ -450,8 +450,6 @@ def write_predictions(args, model, dataset):
 
 
 def main(args):
-    main_temp(args)
-    return
     """
     Main function for training, evaluating, and checkpointing.
 
