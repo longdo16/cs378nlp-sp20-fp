@@ -221,9 +221,8 @@ def _select_model(args):
         Instance of a PyTorch model supplied with args.
     """
     if args.model == 'baseline':
-        return BaselineReader(args)
-    elif args.model == 'BERTQA':
-        return BERTQA()
+        # return BaselineReader(args)
+
     else:
         raise RuntimeError(f'model \'{args.model}\' not recognized!')
 
@@ -450,6 +449,8 @@ def write_predictions(args, model, dataset):
 
 
 def main(args):
+    main_temp(args)
+    return
     """
     Main function for training, evaluating, and checkpointing.
 
@@ -584,5 +585,4 @@ def train_BERTQA(args):
 
 
 if __name__ == '__main__':
-    # main(parser.parse_args())
-    main_temp(parser.parse_args())
+    main(parser.parse_args())
