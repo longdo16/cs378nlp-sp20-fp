@@ -438,8 +438,6 @@ def write_predictions(args, model, dataset):
                 # Grab predicted span.
                 pred_span = ' '.join(passage[start_index:(end_index + 1)])
 
-                print(' '.join(passage))
-
                 # Add prediction to outputs.
                 outputs.append({'qid': qid, 'answer': pred_span})
 

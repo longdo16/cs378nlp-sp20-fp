@@ -224,6 +224,11 @@ class BaselineReader(nn.Module):
             vocabulary: `Vocabulary` object.
             path: Embedding path, e.g. "glove/glove.6B.300d.txt".
         """
+        print('Path: ', path)
+
+        if path == 'glove/biowordvec_train.vec.bin':
+        	print(path)
+
         embedding_map = load_cached_embeddings(path)
 
         # Create embedding matrix. By default, embeddings are randomly
