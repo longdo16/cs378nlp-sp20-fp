@@ -12,6 +12,7 @@ import torch.nn.functional as F
 
 from utils import cuda, load_cached_embeddings
 from torch.nn.utils.rnn import pack_padded_sequence, pad_packed_sequence
+from gensim.models import Word2Vec, KeyedVectors
 
 
 def _sort_batch_by_length(tensor, sequence_lengths):
@@ -227,9 +228,9 @@ class BaselineReader(nn.Module):
         print('Path: ', path)
 
         if path == 'glove/biowordvec_train.vec.bin':
-        	print(path)
-
-        embedding_map = load_cached_embeddings(path)
+        	embedding_map = KeyedVectors.load_word2vec_format(path, binary = True, limit = 100000)
+        else:
+        	embedding_map = load_cached_embeddings(path)
 
         # Create embedding matrix. By default, embeddings are randomly
         # initialized from Uniform(-0.1, 0.1).
