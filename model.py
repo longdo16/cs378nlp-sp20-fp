@@ -230,6 +230,7 @@ class BaselineReader(nn.Module):
         	print('Using Bio2Word Embedding')
         	embedding_map = KeyedVectors.load_word2vec_format(path, binary = True, limit = 100000)
         else:
+        	print('Using GloVe')
         	embedding_map = load_cached_embeddings(path)
 
         # Create embedding matrix. By default, embeddings are randomly
