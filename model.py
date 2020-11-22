@@ -225,9 +225,9 @@ class BaselineReader(nn.Module):
             vocabulary: `Vocabulary` object.
             path: Embedding path, e.g. "glove/glove.6B.300d.txt".
         """
-        print('Path: ', path)
 
         if path == 'glove/biowordvec_train.vec.bin':
+        	print('Using Bio2Word Embedding')
         	embedding_map = KeyedVectors.load_word2vec_format(path, binary = True, limit = 100000)
         else:
         	embedding_map = load_cached_embeddings(path)
