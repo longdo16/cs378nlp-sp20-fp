@@ -181,6 +181,8 @@ class QADataset(Dataset):
                 doc_context = nlp(non_tokenized_context)
                 doc_question = nlp(non_tokenized_question)
 
+                question_name_ents = [str(ent) for ent in doc_question.ents]
+
                 temp = ''
 
                 for sent in doc_question.sents:
@@ -189,10 +191,25 @@ class QADataset(Dataset):
                 for sent in doc_context.sents:
                     roots_context = [st.stem(chunk.root.head.text.lower()) for chunk in sent.noun_chunks]
 
+                    context_name_ents = [str(ent) for ent in sent.ents]
+
+                    added = False
+
                     for root in roots_question:
                         if root in roots_context:
                             temp += str(sent) + ' '
+                            added = True
                             break
+
+                    print('Context NE: ', context_name_ents)
+                    print('Question NE: ', question_name_ents)
+
+                    if not added:
+                        for q_ent in question_name_ents:
+                            for c_ent in context_name_ents:
+                                if q_ent in c_ent or c_ent in q_ent:
+                                    temp += str(sent) + ' '
+                                    break
 
                 temp = temp[0: - 1]
 
