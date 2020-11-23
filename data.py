@@ -222,7 +222,7 @@ class QADataset(Dataset):
                     #                 break
 
                     if not added:
-                        if len(c_ent) > 0:
+                        if len(context_name_ents) > 0:
                             temp += str(ent) + ' '
                             break
 
