@@ -166,11 +166,7 @@ class QADataset(Dataset):
             # Unpack the context paragraph. Shorten to max sequence length.
             passage = [
                 token for (token, offset) in elem['context_tokens']
-            ][:self.args.max_context_length]
-
-            print(elem['context_tokens'])
-
-            print(passage)
+            ]
 
             # Each passage has several questions associated with it.
             # Additionally, each question has multiple possible answer spans.
@@ -218,6 +214,12 @@ class QADataset(Dataset):
                 temp = temp[0: - 1]
 
                 print('Temp: ', temp)
+
+                temp = temp.split(' ')
+
+                passage = [chunk.lower() for chunk in temp][:self.args.max_context_length]
+
+                print('Pa: ', passage)
 
                 qid = qa['qid']
                 question = [
