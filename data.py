@@ -162,7 +162,15 @@ class QADataset(Dataset):
         nlp = spacy.load('en_core_web_sm')
 
         samples = []
+
+        count = 0
+
+        print(len(self.elems))
+
         for elem in self.elems:
+
+            print(count)
+
             # Unpack the context paragraph. Shorten to max sequence length.
             passage = [
                 token for (token, offset) in elem['context_tokens']
@@ -227,6 +235,7 @@ class QADataset(Dataset):
                 samples.append(
                     (qid, passage, question, answer_start, answer_end)
                 )
+            count += 1
                 
         return samples
 
