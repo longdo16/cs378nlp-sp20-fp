@@ -13,6 +13,8 @@ from random import shuffle
 from utils import cuda, load_dataset
 from torch.utils.data import Dataset, DataLoader
 # import transformers
+import spacy
+from nltk.stem.lancaster import LancasterStemmer
 
 PAD_TOKEN = '[PAD]'
 UNK_TOKEN = '[UNK]'
@@ -155,16 +157,48 @@ class QADataset(Dataset):
         Returns:
             A list of words (string).
         """
+
+        st = LancasterStemmer()
+        nlp = spacy.load('en_core_web_sm')
+
         samples = []
         for elem in self.elems:
             # Unpack the context paragraph. Shorten to max sequence length.
             passage = [
-                token.lower() for (token, offset) in elem['context_tokens']
+                token for (token, offset) in elem['context_tokens']
             ][:self.args.max_context_length]
 
             # Each passage has several questions associated with it.
             # Additionally, each question has multiple possible answer spans.
             for qa in elem['qas']:
+
+                non_tokenized_context = ' '.join(passage)
+                non_tokenized_question = qa['question']
+
+                roots_question = []
+                roots_context = []
+
+                doc_context = nlp(non_tokenized_context)
+                doc_question = nlp(non_tokenized_question)
+
+                temp = ''
+
+                for sent in doc_question.sents:
+                    roots_question =[st.stem(chunk.root.head.text.lower()) for chunk in sent.noun_chunks]
+
+                for sent in doc_context.sents:
+                    roots_context = [st.stem(chunk.root.head.text.lower()) for chunk in sent.noun_chunks]
+
+                    for root in roots_question:
+                        if root in roots_context:
+                            temp += str(sent) + ' '
+                            break
+
+                temp = temp[0: - 1]
+
+                print('Temp: ', temp)
+
+
                 qid = qa['qid']
                 question = [
                     token.lower() for (token, offset) in qa['question_tokens']
@@ -178,6 +212,11 @@ class QADataset(Dataset):
                 samples.append(
                     (qid, passage, question, answer_start, answer_end)
                 )
+                print('Passge: ', passage)
+                print('Question: ', question)
+                print('Context: ', elem['context'])
+                print('Question: ', qa['question'])
+                raise RuntimeError('error: no tokenizer registered')
                 
         return samples
 
