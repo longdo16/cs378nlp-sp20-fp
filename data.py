@@ -213,13 +213,9 @@ class QADataset(Dataset):
 
                 temp = temp[0: - 1]
 
-                print('Temp: ', temp)
-
                 temp = temp.split(' ')
 
                 passage = [chunk.lower() for chunk in temp][:self.args.max_context_length]
-
-                print('Pa: ', passage)
 
                 qid = qa['qid']
                 question = [
@@ -234,11 +230,6 @@ class QADataset(Dataset):
                 samples.append(
                     (qid, passage, question, answer_start, answer_end)
                 )
-                print('Passge: ', passage)
-                print('Question: ', question)
-                print('Context: ', elem['context'])
-                print('Question: ', qa['question'])
-                raise RuntimeError('error: no tokenizer registered')
                 
         return samples
 
