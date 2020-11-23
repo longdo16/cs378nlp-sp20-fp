@@ -201,6 +201,12 @@ class QADataset(Dataset):
 
                 for sent in doc_context.sents:
                     print('Sent: ', sent)
+
+                    a = nlp(sent)
+
+                    for i in a:
+                        print(i)
+
                     roots_context = [st.stem(chunk.root.head.text.lower()) for chunk in sent.noun_chunks]
 
                     context_name_ents = [str(ent) for ent in sent.ents]
