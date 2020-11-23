@@ -200,6 +200,7 @@ class QADataset(Dataset):
                     roots_question =[st.stem(chunk.root.head.text.lower()) for chunk in sent.noun_chunks]
 
                 for sent in doc_context.sents:
+                    print('Sent: ', sent)
                     roots_context = [st.stem(chunk.root.head.text.lower()) for chunk in sent.noun_chunks]
 
                     context_name_ents = [str(ent) for ent in sent.ents]
@@ -219,7 +220,6 @@ class QADataset(Dataset):
                                     temp += str(sent) + ' '
                                     break
 
-                    print('Sent: ', sent)
                     print('QEnt: ', question_name_ents)
                     print('CEnt: ', context_name_ents)
                     print('\n\n')
