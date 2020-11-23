@@ -204,7 +204,7 @@ class QADataset(Dataset):
 
                     a = nlp(str(sent))
 
-                    for i in a:
+                    for i in a.ents:
                         print(i)
 
                     roots_context = [st.stem(chunk.root.head.text.lower()) for chunk in sent.noun_chunks]
