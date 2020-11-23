@@ -172,8 +172,8 @@ class QADataset(Dataset):
 
             # Unpack the context paragraph. Shorten to max sequence length.
 
-            print('Elem: ', elem['context'])
-            print('\n')
+            # print('Elem: ', elem['context'])
+            # print('\n')
 
             passage = [
                 token for (token, offset) in elem['context_tokens']
@@ -200,7 +200,7 @@ class QADataset(Dataset):
                     roots_question =[st.stem(chunk.root.head.text.lower()) for chunk in sent.noun_chunks]
 
                 for sent in doc_context.sents:
-                    print('Sent: ', sent)
+                    # print('Sent: ', sent)
 
                     doc = nlp(str(sent))
 
@@ -223,9 +223,9 @@ class QADataset(Dataset):
                                     temp += str(sent) + ' '
                                     break
 
-                    print('QEnt: ', question_name_ents)
-                    print('CEnt: ', context_name_ents)
-                    print('\n\n')
+                    # print('QEnt: ', question_name_ents)
+                    # print('CEnt: ', context_name_ents)
+                    # print('\n\n')
 
                     # if not added:
                     #     if len(context_name_ents) > 0:
@@ -237,13 +237,13 @@ class QADataset(Dataset):
 
                 passage_final = [chunk.lower() for chunk in temp][:self.args.max_context_length]
 
-                print('Final Passage: ', ' '.join(passage_final))
-                print('QA: ', qa['question'])
-                print('Ans: ', qa['answers'])
-                print('\n\n')
+                # print('Final Passage: ', ' '.join(passage_final))
+                # print('QA: ', qa['question'])
+                # print('Ans: ', qa['answers'])
+                # print('\n\n')
 
-                if count == 10:
-                    raise RuntimeError('Debug')
+                # if count == 10:
+                #     raise RuntimeError('Debug')
 
                 qid = qa['qid']
                 question = [
