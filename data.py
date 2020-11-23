@@ -165,8 +165,6 @@ class QADataset(Dataset):
 
         count = 0
 
-        print(len(self.elems))
-
         for elem in self.elems:
 
             if count % 1000 == 0:
@@ -174,7 +172,7 @@ class QADataset(Dataset):
 
             # Unpack the context paragraph. Shorten to max sequence length.
 
-            print(elem['context'])
+            print('Elem: ', elem['context'])
             print('\n')
 
             passage = [
@@ -234,9 +232,9 @@ class QADataset(Dataset):
 
                 passage_final = [chunk.lower() for chunk in temp][:self.args.max_context_length]
 
-                print(' '.join(passage_final))
-                print(qa['question'])
-                print(qa['answers'])
+                print('Final Passage: ', ' '.join(passage_final))
+                print('QA: ', qa['question'])
+                print('Ans: ', qa['answers'])
 
                 if count == 10:
                     raise RuntimeError('Debug')
