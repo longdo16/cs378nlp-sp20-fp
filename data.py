@@ -219,8 +219,10 @@ class QADataset(Dataset):
                                     temp += str(sent) + ' '
                                     break
 
+                    print('Sent: ', sent)
                     print('QEnt: ', question_name_ents)
                     print('CEnt: ', context_name_ents)
+                    print('\n\n')
 
                     # if not added:
                     #     if len(context_name_ents) > 0:
@@ -235,6 +237,7 @@ class QADataset(Dataset):
                 print('Final Passage: ', ' '.join(passage_final))
                 print('QA: ', qa['question'])
                 print('Ans: ', qa['answers'])
+                print('\n\n')
 
                 if count == 10:
                     raise RuntimeError('Debug')
