@@ -202,7 +202,7 @@ class QADataset(Dataset):
                 for sent in doc_context.sents:
                     print('Sent: ', sent)
 
-                    a = nlp(sent)
+                    a = nlp(str(sent))
 
                     for i in a:
                         print(i)
