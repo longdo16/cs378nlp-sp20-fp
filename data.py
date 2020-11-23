@@ -169,7 +169,8 @@ class QADataset(Dataset):
 
         for elem in self.elems:
 
-            print(count)
+            if count % 1000 == 0:
+                print(count)
 
             # Unpack the context paragraph. Shorten to max sequence length.
             passage = [
