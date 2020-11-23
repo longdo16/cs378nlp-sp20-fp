@@ -221,7 +221,7 @@ class QADataset(Dataset):
                     #                 temp += str(sent) + ' '
                     #                 break
 
-                    print('QEnt: ' question_name_ents)
+                    print('QEnt: ', question_name_ents)
                     print('CEnt: ', context_name_ents)
 
                     if not added:
