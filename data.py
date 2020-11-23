@@ -214,19 +214,19 @@ class QADataset(Dataset):
                             added = True
                             break
 
-                    # if not added:
-                    #     for q_ent in question_name_ents:
-                    #         for c_ent in context_name_ents:
-                    #             if q_ent in c_ent or c_ent in q_ent:
-                    #                 temp += str(sent) + ' '
-                    #                 break
+                    if not added:
+                        for q_ent in question_name_ents:
+                            for c_ent in context_name_ents:
+                                if q_ent in c_ent or c_ent in q_ent:
+                                    temp += str(sent) + ' '
+                                    break
 
                     print('QEnt: ', question_name_ents)
                     print('CEnt: ', context_name_ents)
 
-                    if not added:
-                        if len(context_name_ents) > 0:
-                            temp += str(sent) + ' '
+                    # if not added:
+                    #     if len(context_name_ents) > 0:
+                    #         temp += str(sent) + ' '
 
                 temp = temp[0: - 1]
 
