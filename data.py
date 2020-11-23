@@ -168,6 +168,8 @@ class QADataset(Dataset):
                 token for (token, offset) in elem['context_tokens']
             ][:self.args.max_context_length]
 
+            print(passage)
+
             # Each passage has several questions associated with it.
             # Additionally, each question has multiple possible answer spans.
             for qa in elem['qas']:
@@ -214,7 +216,6 @@ class QADataset(Dataset):
                 temp = temp[0: - 1]
 
                 print('Temp: ', temp)
-
 
                 qid = qa['qid']
                 question = [
