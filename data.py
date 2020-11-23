@@ -176,7 +176,7 @@ class QADataset(Dataset):
             print('\n')
 
             passage = [
-                token.lower() for (token, offset) in elem['context_tokens']
+                token for (token, offset) in elem['context_tokens']
             ][:self.args.max_context_length]
 
             # Each passage has several questions associated with it.
