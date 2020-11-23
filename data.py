@@ -201,9 +201,6 @@ class QADataset(Dataset):
                             added = True
                             break
 
-                    print('Context NE: ', context_name_ents)
-                    print('Question NE: ', question_name_ents)
-
                     if not added:
                         for q_ent in question_name_ents:
                             for c_ent in context_name_ents:
