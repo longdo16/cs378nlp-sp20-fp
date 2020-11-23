@@ -173,6 +173,10 @@ class QADataset(Dataset):
                 print(count)
 
             # Unpack the context paragraph. Shorten to max sequence length.
+
+            print(elem['context'])
+            print('\n')
+
             passage = [
                 token.lower() for (token, offset) in elem['context_tokens']
             ][:self.args.max_context_length]
@@ -225,6 +229,7 @@ class QADataset(Dataset):
 
                 print(' '.join(passage_final))
                 print(qa['question'])
+                print(qa['answers'])
 
                 if count == 10:
                     raise RuntimeError('Debug')
