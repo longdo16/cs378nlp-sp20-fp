@@ -221,6 +221,11 @@ class QADataset(Dataset):
                     #                 temp += str(sent) + ' '
                     #                 break
 
+                    if not added:
+                        if len(c_ent) > 0:
+                            temp += str(ent) + ' '
+                            break
+
                 temp = temp[0: - 1]
 
                 temp = temp.split(' ')
