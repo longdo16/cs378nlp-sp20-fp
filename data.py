@@ -227,8 +227,8 @@ class QADataset(Dataset):
                             if added:
                                 break
 
-                    # if not added:
-                    #     temp += [','] * len()
+                    if not added:
+                        temp += [','] * len()
 
                     # print('QEnt: ', question_name_ents)
                     # print('CEnt: ', context_name_ents)
@@ -239,8 +239,10 @@ class QADataset(Dataset):
                     #         temp += str(sent) + ' '
 
                 temp = temp[0: - 1]
+                print('t1: ', temp)
 
                 temp = temp.split(' ')
+                print('t2: ', temp)
 
                 passage_final = [chunk.lower() for chunk in temp][:self.args.max_context_length]
 
