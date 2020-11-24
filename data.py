@@ -222,7 +222,7 @@ class QADataset(Dataset):
 
                     added = False
 
-                    print(sent)
+                    # print(sent)
 
                     for root in roots_question:
                         if root in roots_context:
@@ -291,11 +291,11 @@ class QADataset(Dataset):
                 samples.append(
                     (qid, passage_final, question, answer_start, answer_end)
                 )
-                print('Question: ', qa['question'])
-                print('Start: ', answer_start)
-                print('End: ', answer_end)
-                print('Answer: ', qa['answers'])
-                print('\n\n')
+                # print('Question: ', qa['question'])
+                # print('Start: ', answer_start)
+                # print('End: ', answer_end)
+                # print('Answer: ', qa['answers'])
+                # print('\n\n')
             count += 1
                 
         return samples
