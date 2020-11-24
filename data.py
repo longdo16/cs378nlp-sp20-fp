@@ -206,7 +206,12 @@ class QADataset(Dataset):
                 for sent in doc_question.sents:
                     roots_question =[st.stem(chunk.root.head.text.lower()) for chunk in sent.noun_chunks]
 
+                p = ''
+
                 for sent in doc_context.sents:
+
+                    p += str(sent)
+
                     # print('Sent: ', sent)
 
                     doc = nlp(str(sent))
@@ -248,6 +253,7 @@ class QADataset(Dataset):
                     #     if len(context_name_ents) > 0:
                     #         temp += str(sent) + ' '
 
+                print('Debug: ', p)
                 temp = temp[0: - 1]
                 print('t1: ', temp)
 
