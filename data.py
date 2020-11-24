@@ -170,6 +170,10 @@ class QADataset(Dataset):
             if count % 1000 == 0:
                 print(count)
 
+            print(elem)
+
+            raise RuntimeError('Debug')
+
             # Unpack the context paragraph. Shorten to max sequence length.
 
             # print('Elem: ', elem['context'])
@@ -210,21 +214,21 @@ class QADataset(Dataset):
 
                 #     added = False
 
-                    # for root in roots_question:
-                    #     if root in roots_context:
-                    #         temp += str(sent) + ' '
-                    #         added = True
-                    #         break
+                #     for root in roots_question:
+                #         if root in roots_context:
+                #             temp += str(sent) + ' '
+                #             added = True
+                #             break
 
-                    # if not added:
-                    #     for q_ent in question_name_ents:
-                    #         for c_ent in context_name_ents:
-                    #             if q_ent in c_ent or c_ent in q_ent:
-                    #                 temp += str(sent) + ' '
-                    #                 added = True
-                    #                 break
-                    #         if added:
-                    #             break
+                #     if not added:
+                #         for q_ent in question_name_ents:
+                #             for c_ent in context_name_ents:
+                #                 if q_ent in c_ent or c_ent in q_ent:
+                #                     temp += str(sent) + ' '
+                #                     added = True
+                #                     break
+                #             if added:
+                #                 break
 
                     # print('QEnt: ', question_name_ents)
                     # print('CEnt: ', context_name_ents)
