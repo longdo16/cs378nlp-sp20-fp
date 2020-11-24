@@ -222,10 +222,13 @@ class QADataset(Dataset):
 
                     added = False
 
+                    print(sent)
+
                     for root in roots_question:
                         if root in roots_context:
                             temp += str(sent) + ' '
                             added = True
+                            print('Here 1')
                             break
 
                     if not added:
@@ -234,6 +237,7 @@ class QADataset(Dataset):
                                 if q_ent in c_ent or c_ent in q_ent:
                                     temp += str(sent) + ' '
                                     added = True
+                                    print('Here 2')
                                     break
                             if added:
                                 break
