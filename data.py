@@ -176,55 +176,55 @@ class QADataset(Dataset):
             # print('\n')
 
             passage = [
-                token for (token, offset) in elem['context_tokens']
+                token.lower() for (token, offset) in elem['context_tokens']
             ][:self.args.max_context_length]
 
             # Each passage has several questions associated with it.
             # Additionally, each question has multiple possible answer spans.
             for qa in elem['qas']:
 
-                non_tokenized_context = ' '.join(passage)
-                non_tokenized_question = qa['question']
+                # non_tokenized_context = ' '.join(passage)
+                # non_tokenized_question = qa['question']
 
-                roots_question = []
-                roots_context = []
+                # roots_question = []
+                # roots_context = []
 
-                doc_context = nlp(non_tokenized_context)
-                doc_question = nlp(non_tokenized_question)
+                # doc_context = nlp(non_tokenized_context)
+                # doc_question = nlp(non_tokenized_question)
 
-                question_name_ents = [str(ent) for ent in doc_question.ents]
+                # question_name_ents = [str(ent) for ent in doc_question.ents]
 
-                temp = ''
+                # temp = ''
 
-                for sent in doc_question.sents:
-                    roots_question =[st.stem(chunk.root.head.text.lower()) for chunk in sent.noun_chunks]
+                # for sent in doc_question.sents:
+                #     roots_question =[st.stem(chunk.root.head.text.lower()) for chunk in sent.noun_chunks]
 
-                for sent in doc_context.sents:
-                    # print('Sent: ', sent)
+                # for sent in doc_context.sents:
+                #     # print('Sent: ', sent)
 
-                    doc = nlp(str(sent))
+                #     doc = nlp(str(sent))
 
-                    roots_context = [st.stem(chunk.root.head.text.lower()) for chunk in sent.noun_chunks]
+                #     roots_context = [st.stem(chunk.root.head.text.lower()) for chunk in sent.noun_chunks]
 
-                    context_name_ents = [str(ent) for ent in doc.ents]
+                #     context_name_ents = [str(ent) for ent in doc.ents]
 
-                    added = False
+                #     added = False
 
-                    for root in roots_question:
-                        if root in roots_context:
-                            temp += str(sent) + ' '
-                            added = True
-                            break
+                    # for root in roots_question:
+                    #     if root in roots_context:
+                    #         temp += str(sent) + ' '
+                    #         added = True
+                    #         break
 
-                    if not added:
-                        for q_ent in question_name_ents:
-                            for c_ent in context_name_ents:
-                                if q_ent in c_ent or c_ent in q_ent:
-                                    temp += str(sent) + ' '
-                                    added = True
-                                    break
-                            if added:
-                                break
+                    # if not added:
+                    #     for q_ent in question_name_ents:
+                    #         for c_ent in context_name_ents:
+                    #             if q_ent in c_ent or c_ent in q_ent:
+                    #                 temp += str(sent) + ' '
+                    #                 added = True
+                    #                 break
+                    #         if added:
+                    #             break
 
                     # print('QEnt: ', question_name_ents)
                     # print('CEnt: ', context_name_ents)
@@ -238,7 +238,7 @@ class QADataset(Dataset):
 
                 temp = temp.split(' ')
 
-                passage_final = [chunk.lower() for chunk in temp][:self.args.max_context_length]
+                # passage_final = [chunk.lower() for chunk in temp][:self.args.max_context_length]
 
                 # print('Final Passage: ', ' '.join(passage_final))
                 # print('QA: ', qa['question'])
@@ -259,7 +259,7 @@ class QADataset(Dataset):
                 answers = qa['detected_answers']
                 answer_start, answer_end = answers[0]['token_spans'][0]
                 samples.append(
-                    (qid, passage_final, question, answer_start, answer_end)
+                    (qid, passage, question, answer_start, answer_end)
                 )
             count += 1
                 
