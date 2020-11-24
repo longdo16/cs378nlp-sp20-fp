@@ -287,6 +287,8 @@ class BaselineReader(nn.Module):
         # Obtain masks and lengths for passage and question.
         passage_mask = (batch['passages'] != self.pad_token_id)  # [batch_size, p_len]
         question_mask = (batch['questions'] != self.pad_token_id)  # [batch_size, q_len]
+        print('Q: ', batch['questions'])
+        print('Mask: ', question_mask)
         passage_lengths = passage_mask.long().sum(-1)  # [batch_size]
         question_lengths = question_mask.long().sum(-1)  # [batch_size]
 
