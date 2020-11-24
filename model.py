@@ -77,9 +77,6 @@ class AlignedAttention(nn.Module):
         # Assign -inf to pad tokens
         scores.data.masked_fill_(q_mask.data, -float('inf'))
         # Normalize along question length
-        print('q: ', q)
-        print('q_key: ', q_key)
-        print('q_mask: ', q_mask)
         return F.softmax(scores, 2)  # [batch_size, p_len, q_len]
 
 
@@ -178,7 +175,6 @@ class BaselineReader(nn.Module):
 
         self.args = args
         self.pad_token_id = args.pad_token_id
-        print('pad: ', self.pad_token_id)
 
         # Initialize embedding layer (1)
         self.embedding = nn.Embedding(args.vocab_size, args.embedding_dim)
@@ -290,8 +286,6 @@ class BaselineReader(nn.Module):
         # Obtain masks and lengths for passage and question.
         passage_mask = (batch['passages'] != self.pad_token_id)  # [batch_size, p_len]
         question_mask = (batch['questions'] != self.pad_token_id)  # [batch_size, q_len]
-        print('Q: ', batch['questions'])
-        print('Mask: ', question_mask)
         passage_lengths = passage_mask.long().sum(-1)  # [batch_size]
         question_lengths = question_mask.long().sum(-1)  # [batch_size]
 

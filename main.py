@@ -475,7 +475,6 @@ def main(args):
         dataset.register_tokenizer(tokenizer)
     args.vocab_size = len(vocabulary)
     args.pad_token_id = tokenizer.pad_token_id
-    print('Pad: ', args.pad_token_id)
     print(f'vocab words = {len(vocabulary)}')
 
     # Print number of samples.
