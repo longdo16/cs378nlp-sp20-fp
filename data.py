@@ -256,6 +256,7 @@ class QADataset(Dataset):
                 # print('\n\n')
                 print(passage_final)
 
+
                 if count == 10:
                     raise RuntimeError('Debug')
 
@@ -272,6 +273,10 @@ class QADataset(Dataset):
                 samples.append(
                     (qid, passage_final, question, answer_start, answer_end)
                 )
+                print('Question: ', qa['question'])
+                print('Start: ', answer_start)
+                print('End: ', answer_end)
+                print('\n\n')
             count += 1
                 
         return samples
