@@ -276,6 +276,7 @@ class QADataset(Dataset):
                 print('Question: ', qa['question'])
                 print('Start: ', answer_start)
                 print('End: ', answer_end)
+                print('Answer: ', qa['answers'])
                 print('\n\n')
             count += 1
                 
