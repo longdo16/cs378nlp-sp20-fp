@@ -181,6 +181,7 @@ class QADataset(Dataset):
 
             # Each passage has several questions associated with it.
             # Additionally, each question has multiple possible answer spans.
+            print(elem['context'])
             for qa in elem['qas']:
 
                 non_tokenized_context = ' '.join(passage)
