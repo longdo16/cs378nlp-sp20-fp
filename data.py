@@ -245,7 +245,7 @@ class QADataset(Dataset):
                     if not added:
                         tmp = str(sent)
                         tmp = tmp.split(' ')
-                        tmp += [','] * len(tmp)
+                        tmp = [','] * len(tmp)
                         tmp = ' '.join(tmp)
                         temp += tmp + ' '
                         print(tmp)
