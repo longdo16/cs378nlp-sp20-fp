@@ -221,7 +221,10 @@ class QADataset(Dataset):
                             for c_ent in context_name_ents:
                                 if q_ent in c_ent or c_ent in q_ent:
                                     temp += str(sent) + ' '
+                                    added = True
                                     break
+                            if added:
+                                break
 
                     # print('QEnt: ', question_name_ents)
                     # print('CEnt: ', context_name_ents)
