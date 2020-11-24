@@ -226,8 +226,8 @@ class QADataset(Dataset):
                             if added:
                                 break
 
-                    if not added:
-                        temp += [','] * len()
+                    # if not added:
+                    #     temp += [','] * len()
 
                     # print('QEnt: ', question_name_ents)
                     # print('CEnt: ', context_name_ents)
