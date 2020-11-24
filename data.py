@@ -234,9 +234,9 @@ class QADataset(Dataset):
                     #     if len(context_name_ents) > 0:
                     #         temp += str(sent) + ' '
 
-                temp = temp[0: - 1]
+                # temp = temp[0: - 1]
 
-                temp = temp.split(' ')
+                # temp = temp.split(' ')
 
                 # passage_final = [chunk.lower() for chunk in temp][:self.args.max_context_length]
 
