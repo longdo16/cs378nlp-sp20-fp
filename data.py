@@ -190,6 +190,7 @@ class QADataset(Dataset):
 
                 non_tokenized_context = ' '.join(passage)
                 print('NT: ', non_tokenized_context)
+                print(non_tokenized_context.split(' '))
                 non_tokenized_question = qa['question']
 
                 roots_question = []
