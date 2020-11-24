@@ -184,6 +184,8 @@ class QADataset(Dataset):
             print(elem['context'])
             for qa in elem['qas']:
 
+                print('Passage: ', passage)
+
                 non_tokenized_context = ' '.join(passage)
                 non_tokenized_question = qa['question']
 
