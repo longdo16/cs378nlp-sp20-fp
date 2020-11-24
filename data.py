@@ -102,6 +102,12 @@ class Tokenizer:
         Returns:
             A list of indices (int).
         """
+        a = [
+            self.vocabulary.encoding.get(token, self.unk_token_id)
+            for token in tokens
+        ]
+        print('A: ', a)
+        print('B: ', tokens)
         return [
             self.vocabulary.encoding.get(token, self.unk_token_id)
             for token in tokens
