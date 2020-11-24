@@ -230,7 +230,9 @@ class QADataset(Dataset):
                     if not added:
                         tmp = str(sent)
                         tmp = tmp.split(' ')
-                        temp += [','] * len(str(sent).split(' '))
+                        tmp += [','] * len(tmp)
+                        tmp = ' '.join(tmp)
+                        temp += tmp
 
                     # print('QEnt: ', question_name_ents)
                     # print('CEnt: ', context_name_ents)
