@@ -236,7 +236,7 @@ class QADataset(Dataset):
                         tmp = tmp.split(' ')
                         tmp += [','] * len(tmp)
                         tmp = ' '.join(tmp)
-                        temp += tmp
+                        temp += tmp + ' '
 
                     # print('QEnt: ', question_name_ents)
                     # print('CEnt: ', context_name_ents)
