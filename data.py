@@ -175,6 +175,8 @@ class QADataset(Dataset):
             # print('Elem: ', elem['context'])
             # print('\n')
 
+            print(elem)
+
             passage = [
                 token for (token, offset) in elem['context_tokens']
             ][:self.args.max_context_length]
