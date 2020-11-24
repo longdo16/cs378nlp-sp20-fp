@@ -77,6 +77,9 @@ class AlignedAttention(nn.Module):
         # Assign -inf to pad tokens
         scores.data.masked_fill_(q_mask.data, -float('inf'))
         # Normalize along question length
+        print('q: ', q)
+        print('q_key: ', q_key)
+        print('q_mask: ', q_mask)
         return F.softmax(scores, 2)  # [batch_size, p_len, q_len]
 
 
