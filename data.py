@@ -228,7 +228,7 @@ class QADataset(Dataset):
                         if root in roots_context:
                             temp += str(sent) + ' '
                             added = True
-                            print('Here 1')
+                            # print('Here 1')
                             break
 
                     if not added:
@@ -237,7 +237,7 @@ class QADataset(Dataset):
                                 if q_ent in c_ent or c_ent in q_ent:
                                     temp += str(sent) + ' '
                                     added = True
-                                    print('Here 2')
+                                    # print('Here 2')
                                     break
                             if added:
                                 break
@@ -264,7 +264,7 @@ class QADataset(Dataset):
                 # print('t1: ', temp)
 
                 temp = temp.split(' ')
-                print('t2: ', temp)
+                # print('t2: ', temp)
 
                 passage_final = [chunk.lower() for chunk in temp][:self.args.max_context_length]
 
