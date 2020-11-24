@@ -175,7 +175,7 @@ class QADataset(Dataset):
             # print('Elem: ', elem['context'])
             # print('\n')
 
-            print(elem)
+            # print(elem)
 
             passage = [
                 token for (token, offset) in elem['context_tokens']
@@ -183,14 +183,14 @@ class QADataset(Dataset):
 
             # Each passage has several questions associated with it.
             # Additionally, each question has multiple possible answer spans.
-            print(elem['context'])
+            # print(elem['context'])
             for qa in elem['qas']:
 
-                print('Passage: ', passage)
+                # print('Passage: ', passage)
 
                 non_tokenized_context = ' '.join(passage)
-                print('NT: ', non_tokenized_context)
-                print(non_tokenized_context.split(' '))
+                # print('NT: ', non_tokenized_context)
+                # print(non_tokenized_context.split(' '))
                 non_tokenized_question = qa['question']
 
                 roots_question = []
@@ -248,8 +248,8 @@ class QADataset(Dataset):
                         tmp = [','] * len(tmp)
                         tmp = ' '.join(tmp)
                         temp += tmp + ' '
-                        print(tmp)
-                        print('Here 3')
+                        # print(tmp)
+                        # print('Here 3')
 
                     # print('QEnt: ', question_name_ents)
                     # print('CEnt: ', context_name_ents)
@@ -259,9 +259,9 @@ class QADataset(Dataset):
                     #     if len(context_name_ents) > 0:
                     #         temp += str(sent) + ' '
 
-                print('Debug: ', p[:-1])
+                # print('Debug: ', p[:-1])
                 temp = temp[0: - 1]
-                print('t1: ', temp)
+                # print('t1: ', temp)
 
                 temp = temp.split(' ')
                 print('t2: ', temp)
