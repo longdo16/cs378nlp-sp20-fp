@@ -175,6 +175,7 @@ class BaselineReader(nn.Module):
 
         self.args = args
         self.pad_token_id = args.pad_token_id
+        print('pad: ', self.pad_token_id)
 
         # Initialize embedding layer (1)
         self.embedding = nn.Embedding(args.vocab_size, args.embedding_dim)
