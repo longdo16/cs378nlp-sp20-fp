@@ -228,6 +228,9 @@ class QADataset(Dataset):
                                 break
 
                     if not added:
+                        tmp = str(sent)
+                        print('TMP: ', tmp)
+                        tmp = tmp.split(' ')
                         temp += [','] * len(str(sent).split(' '))
 
                     # print('QEnt: ', question_name_ents)
