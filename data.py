@@ -41,6 +41,14 @@ class Vocabulary:
         self.words = self._initialize(samples, vocab_size)
         self.encoding = {word: index for (index, word) in enumerate(self.words)}
         self.decoding = {index: word for (index, word) in enumerate(self.words)}
+        count = 0
+        for i in self.encoding:
+            print(i)
+            print(self.encoding[i])
+            print
+            if count == 10:
+                break
+            count += 1
 
     def _initialize(self, samples, vocab_size):
         """
