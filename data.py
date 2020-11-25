@@ -287,7 +287,9 @@ class QADataset(Dataset):
                 # (start_position, end_position), where the end_position
                 # is inclusive.
                 answers = qa['detected_answers']
+                print(answers)
                 answers = answers[0]['token_spans']
+                print(answers)
                 answers = answers.sort(key=lambda x: x[0])
                 print(answers)
                 answer_start, answer_end = answers[0]
