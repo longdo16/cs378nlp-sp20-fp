@@ -287,6 +287,9 @@ class BaselineReader(nn.Module):
         passage_mask = (batch['passages'] != self.pad_token_id)  # [batch_size, p_len]
         question_mask = (batch['questions'] != self.pad_token_id)  # [batch_size, q_len]
         passage_lengths = passage_mask.long().sum(-1)  # [batch_size]
+        print('Passage Mask: ', batch['passages'])
+        print()
+        print('Passage Lengths: ', passage_lengths)
         question_lengths = question_mask.long().sum(-1)  # [batch_size]
 
         # 1) Embedding Layer: Embed the passage and question.
