@@ -292,6 +292,7 @@ class BaselineReader(nn.Module):
         # print('Pad: ', self.pad_token_id)
         # print()
         # print('Passage Lengths: ', passage_lengths)
+        # raise RuntimeError('Debug')
         question_lengths = question_mask.long().sum(-1)  # [batch_size]
 
         # 1) Embedding Layer: Embed the passage and question.
