@@ -289,7 +289,7 @@ class QADataset(Dataset):
                 answers = qa['detected_answers']
                 answers = answers[0]['token_spans']
                 answers = answers.sort(key=lambda x: x[0])
-                answer_start, answer_end = answers[0]['token_spans'][0]
+                answer_start, answer_end = answers[0]
                 samples.append(
                     (qid, passage, question, answer_start, answer_end)
                 )
