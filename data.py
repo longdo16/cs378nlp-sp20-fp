@@ -206,11 +206,7 @@ class QADataset(Dataset):
                 for sent in doc_question.sents:
                     roots_question =[st.stem(chunk.root.head.text.lower()) for chunk in sent.noun_chunks]
 
-                p = ''
-
                 for sent in doc_context.sents:
-
-                    p += str(sent) + ' '
 
                     # print('Sent: ', sent)
 
@@ -224,12 +220,12 @@ class QADataset(Dataset):
 
                     # print(sent)
 
-                    for root in roots_question:
-                        if root in roots_context:
-                            temp += str(sent) + ' '
-                            added = True
-                            # print('Here 1')
-                            break
+                    # for root in roots_question:
+                    #     if root in roots_context:
+                    #         temp += str(sent) + ' '
+                    #         added = True
+                    #         # print('Here 1')
+                    #         break
 
                     if not added:
                         for q_ent in question_name_ents:
@@ -288,13 +284,6 @@ class QADataset(Dataset):
                 # is inclusive.
                 answers = qa['detected_answers']
                 answer_start, answer_end = answers[0]['token_spans'][0]
-
-                print('QID: ', qid)
-                print('Passage: ', passage_final)
-                print('Question: ', question)
-                print('Start: ', answer_start)
-                print('End: ', answer_end)
-
 
                 samples.append(
                     (qid, passage_final, question, answer_start, answer_end)
