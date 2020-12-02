@@ -297,6 +297,7 @@ class QADataset(Dataset):
                 print('Question: ', question)
                 print('Start: ', answer_start)
                 print('End: ', answer_end)
+                print('Answer: ', answers)
 
 
                 samples.append(
