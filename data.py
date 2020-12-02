@@ -245,14 +245,14 @@ class QADataset(Dataset):
                         if added:
                             break
 
-                    if not added and not answers_added:
+                    if not answers_added:
                         tmp = str(sent)
 
                         length = len(tmp)
 
                         if index + length < answer_start:
-                            answer_start -= index + length - 1
-                            answer_end -= index + length - 1
+                            answer_start -= (index + length)
+                            answer_end -= (index + length)
                             index += length
                         elif index <= answer_start and answer_end <= index + length:
                             answers_added = True
