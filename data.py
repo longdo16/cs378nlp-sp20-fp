@@ -240,6 +240,12 @@ class QADataset(Dataset):
                             if q_ent in c_ent or c_ent in q_ent:
                                 temp += str(sent) + ' '
                                 added = True
+
+                                length = len(temp)
+
+                                if index <= answer_start and answers_added <= index + length:
+                                    answers_added = True
+
                                 # print('Here 2')
                                 break
                         if added:
