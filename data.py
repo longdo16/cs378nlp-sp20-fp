@@ -288,6 +288,14 @@ class QADataset(Dataset):
                 # is inclusive.
                 answers = qa['detected_answers']
                 answer_start, answer_end = answers[0]['token_spans'][0]
+
+                print('QID: ', qid)
+                print('Passage: ', passage_final)
+                print('Question: ', question)
+                print('Start: ', answer_start)
+                print('End: ', answer_end)
+
+
                 samples.append(
                     (qid, passage_final, question, answer_start, answer_end)
                 )
