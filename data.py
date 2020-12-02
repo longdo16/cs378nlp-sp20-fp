@@ -281,11 +281,11 @@ class QADataset(Dataset):
 
                 passage_final = [chunk.lower() for chunk in temp][:self.args.max_context_length]
 
-                print('Final Passage: ', ' '.join(passage_final))
-                print('QA: ', qa['question'])
-                print('Ans: ', qa['answers'])
-                print('\n\n')
-                print(passage_final)
+                # print('Final Passage: ', ' '.join(passage_final))
+                # print('QA: ', qa['question'])
+                # print('Ans: ', qa['answers'])
+                # print('\n\n')
+                # print(passage_final)
 
 
                 # if count == 10:
@@ -304,11 +304,11 @@ class QADataset(Dataset):
                 samples.append(
                     (qid, passage_final, question, answer_start, answer_end)
                 )
-                # print('Question: ', qa['question'])
-                # print('Start: ', answer_start)
-                # print('End: ', answer_end)
-                # print('Answer: ', qa['answers'])
-                # print('\n\n')
+                print('Question: ', qa['question'])
+                print('Start: ', answer_start)
+                print('End: ', answer_end)
+                print('Answer: ', qa['answers'])
+                print('\n\n')
             count += 1
                 
         return samples
