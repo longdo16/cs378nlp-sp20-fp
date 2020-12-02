@@ -241,7 +241,7 @@ class QADataset(Dataset):
                                 temp += str(sent) + ' '
                                 added = True
 
-                                length = len(temp)
+                                length = len(str(sent))
 
                                 if index <= answer_start and answers_added <= index + length:
                                     answers_added = True
