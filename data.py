@@ -206,6 +206,8 @@ class QADataset(Dataset):
 
                 question_name_ents = [str(ent) for ent in doc_question.ents]
 
+                print('QE: ', question_name_ents)
+
                 temp = ''
 
                 for sent in doc_question.sents:
