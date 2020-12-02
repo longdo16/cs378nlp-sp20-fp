@@ -184,6 +184,7 @@ class QADataset(Dataset):
             # Each passage has several questions associated with it.
             # Additionally, each question has multiple possible answer spans.
             # print(elem['context'])
+
             for qa in elem['qas']:
 
                 # print('Passage: ', passage)
@@ -202,6 +203,13 @@ class QADataset(Dataset):
                 question_name_ents = [str(ent) for ent in doc_question.ents]
 
                 temp = ''
+
+                index = 0
+
+                answers_added = False
+
+                answers = qa['detected_answers']
+                answer_start, answer_end = answers[0]['token_spans'][0]
 
                 for sent in doc_question.sents:
                     roots_question =[st.stem(chunk.root.head.text.lower()) for chunk in sent.noun_chunks]
@@ -227,23 +235,32 @@ class QADataset(Dataset):
                     #         # print('Here 1')
                     #         break
 
-                    if not added:
-                        for q_ent in question_name_ents:
-                            for c_ent in context_name_ents:
-                                if q_ent in c_ent or c_ent in q_ent:
-                                    temp += str(sent) + ' '
-                                    added = True
-                                    # print('Here 2')
-                                    break
-                            if added:
+                    for q_ent in question_name_ents:
+                        for c_ent in context_name_ents:
+                            if q_ent in c_ent or c_ent in q_ent:
+                                temp += str(sent) + ' '
+                                added = True
+                                # print('Here 2')
                                 break
+                        if added:
+                            break
 
-                    if not added:
+                    if not added and not answers_added:
                         tmp = str(sent)
-                        tmp = tmp.split(' ')
-                        tmp = [PAD_TOKEN] * len(tmp)
-                        tmp = ' '.join(tmp)
-                        temp += tmp + ' '
+
+                        length = len(tmp)
+
+                        if index + length < answer_start:
+                            answer_start -= index + length - 1
+                            answer_end -= index + length - 1
+                            index += length
+                        elif index <= answer_start and answer_end <= index + length:
+                            answers_added = True
+
+                            if not added:
+                                temp += str(sent) + ' '
+
+
                         # print(tmp)
                         # print('Here 3')
 
@@ -264,11 +281,11 @@ class QADataset(Dataset):
 
                 passage_final = [chunk.lower() for chunk in temp][:self.args.max_context_length]
 
-                # print('Final Passage: ', ' '.join(passage_final))
-                # print('QA: ', qa['question'])
-                # print('Ans: ', qa['answers'])
-                # print('\n\n')
-                # print(passage_final)
+                print('Final Passage: ', ' '.join(passage_final))
+                print('QA: ', qa['question'])
+                print('Ans: ', qa['answers'])
+                print('\n\n')
+                print(passage_final)
 
 
                 # if count == 10:
@@ -282,8 +299,7 @@ class QADataset(Dataset):
                 # Select the first answer span, which is formatted as
                 # (start_position, end_position), where the end_position
                 # is inclusive.
-                answers = qa['detected_answers']
-                answer_start, answer_end = answers[0]['token_spans'][0]
+                
 
                 samples.append(
                     (qid, passage_final, question, answer_start, answer_end)
