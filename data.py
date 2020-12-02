@@ -184,9 +184,6 @@ class QADataset(Dataset):
             # Each passage has several questions associated with it.
             # Additionally, each question has multiple possible answer spans.
             # print(elem['context'])
-
-            print(passage)
-
             for qa in elem['qas']:
 
                 # print('Passage: ', passage)
@@ -196,8 +193,6 @@ class QADataset(Dataset):
                 # print(non_tokenized_context.split(' '))
                 non_tokenized_question = qa['question']
 
-                print('Q: ', non_tokenized_question)
-
                 roots_question = []
                 roots_context = []
 
@@ -205,8 +200,6 @@ class QADataset(Dataset):
                 doc_question = nlp(non_tokenized_question)
 
                 question_name_ents = [str(ent) for ent in doc_question.ents]
-
-                print('QE: ', question_name_ents)
 
                 temp = ''
 
@@ -295,15 +288,6 @@ class QADataset(Dataset):
                 # is inclusive.
                 answers = qa['detected_answers']
                 answer_start, answer_end = answers[0]['token_spans'][0]
-
-                print('QID: ', qid)
-                print('Passage: ', passage_final)
-                print('Question: ', question)
-                print('Start: ', answer_start)
-                print('End: ', answer_end)
-                print('Answer: ', answers)
-
-
                 samples.append(
                     (qid, passage_final, question, answer_start, answer_end)
                 )
