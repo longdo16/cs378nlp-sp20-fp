@@ -304,6 +304,7 @@ class QADataset(Dataset):
                 samples.append(
                     (qid, passage_final, question, answer_start, answer_end)
                 )
+                print('Passage: ', passage_final)
                 print('Question: ', qa['question'])
                 print('Start: ', answer_start)
                 print('End: ', answer_end)
