@@ -256,15 +256,15 @@ class QADataset(Dataset):
 
                         length = len(tmp)
 
-                        if index + length < answer_start:
-                            answer_start -= (index + length)
-                            answer_end -= (index + length)
-                            index += length
-                        elif index <= answer_start and answer_end <= index + length:
-                            answers_added = True
+                        if index <= answer_start:
+                            if answer_end <= index + length:
+                                answers_added = True
 
-                            if not added:
-                                temp += str(sent) + ' '
+                                if not added:
+                                    temp += str(sent) + ' '
+                            else:
+                                answer_start -= (index + length)
+                                answer_end -= (index + length)
 
 
                         # print(tmp)
