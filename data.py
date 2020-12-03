@@ -252,7 +252,7 @@ class QADataset(Dataset):
                         if index <= answer_start and answer_end <= index + len(a) - 1:
                             answer_added = True
                             temp += str(sent) + ' '
-                        elif index + len(a) < start:
+                        elif index + len(a) < answer_start:
                             answer_start -= len(a)
                             answer_end -= len(a)
 
