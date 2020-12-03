@@ -208,11 +208,18 @@ class QADataset(Dataset):
 
                 p = ''
 
+                index = 1
+                answer_added = False
+
                 for sent in doc_context.sents:
 
                     p += str(sent) + ' '
 
                     # print('Sent: ', sent)
+
+                    a = str(sent)
+
+                    a = a.split(' ')
 
                     doc = nlp(str(sent))
 
@@ -222,32 +229,59 @@ class QADataset(Dataset):
 
                     added = False
 
-                    # print(sent)
+                    answers = qa['detected_answers']
+                    answer_start, answer_end = answers[0]['token_spans'][0]
 
-                    for root in roots_question:
-                        if root in roots_context:
-                            temp += str(sent) + ' '
-                            added = True
-                            # print('Here 1')
+                    for q_ent in question_name_ents:
+                        for c_ent in context_name_ents:
+                            if q_ent in c_ent or c_ent in q_ent:
+                                temp += str(sent) + ' '
+                                added = True
+
+                                index += len(a)
+
+                                if not answer_added:
+                                    if index <= answer_start and answer_end <= index + len(a) - 1:
+                                        answer_added = True
+                                break
+                        if added:
                             break
 
-                    if not added:
-                        for q_ent in question_name_ents:
-                            for c_ent in context_name_ents:
-                                if q_ent in c_ent or c_ent in q_ent:
-                                    temp += str(sent) + ' '
-                                    added = True
-                                    # print('Here 2')
-                                    break
-                            if added:
-                                break
 
-                    if not added:
-                        tmp = str(sent)
-                        tmp = tmp.split(' ')
-                        tmp = [PAD_TOKEN] * len(tmp)
-                        tmp = ' '.join(tmp)
-                        temp += tmp + ' '
+                    if not answer_added and not added:
+                        if index <= answer_start and answer_end <= index + len(a) - 1:
+                            answer_added = True
+                            temp += str(sent) + ' '
+                        elif index + len(a) < start:
+                            answer_start -= len(a)
+                            answer_end -= len(a)
+
+                    # print(sent)
+
+                    # for root in roots_question:
+                    #     if root in roots_context:
+                    #         temp += str(sent) + ' '
+                    #         added = True
+                    #         # print('Here 1')
+                    #         break
+
+                    # if not added:
+                    #     for q_ent in question_name_ents:
+                    #         for c_ent in context_name_ents:
+                    #             if q_ent in c_ent or c_ent in q_ent:
+                    #                 temp += str(sent) + ' '
+                    #                 added = True
+                    #                 # print('Here 2')
+                    #                 break
+                    #         if added:
+                    #             break
+
+                    # if not added:
+                    #     tmp = str(sent)
+                    #     tmp = tmp.split(' ')
+                    #     tmp = [PAD_TOKEN] * len(tmp)
+                    #     tmp = ' '.join(tmp)
+                    #     temp += tmp + ' '
                         # print(tmp)
                         # print('Here 3')
 
@@ -286,8 +320,7 @@ class QADataset(Dataset):
                 # Select the first answer span, which is formatted as
                 # (start_position, end_position), where the end_position
                 # is inclusive.
-                answers = qa['detected_answers']
-                answer_start, answer_end = answers[0]['token_spans'][0]
+                
                 samples.append(
                     (qid, passage_final, question, answer_start, answer_end)
                 )
