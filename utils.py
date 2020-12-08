@@ -154,6 +154,9 @@ def search_span_endpoints(start_probs, end_probs, passage, question, window=15):
             if added:
                 break
 
+    max_start_index = -1
+    max_end_index = -1
+
     for span in list_spans:
         max_start_index = start_probs.index(max(start_probs[span[0]: span[1]]))
         max_end_index = -1
