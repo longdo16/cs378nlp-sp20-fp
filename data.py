@@ -150,7 +150,7 @@ class QADataset(Dataset):
             if self.tokenizer is not None else 0
 
     def _create_samples(self):
-        """
+        """_create_samples
         Formats raw examples to desired form. Any passages/questions longer
         than max sequence length will be truncated.
 
@@ -179,6 +179,10 @@ class QADataset(Dataset):
 
             passage = [
                 token.lower() for (token, offset) in elem['context_tokens']
+            ][:self.args.max_context_length]
+
+            passage_not_lower = [
+                token for (token, offset) in elem['context_tokens']
             ][:self.args.max_context_length]
 
             # Each passage has several questions associated with it.
@@ -283,13 +287,17 @@ class QADataset(Dataset):
                     token.lower() for (token, offset) in qa['question_tokens']
                 ][:self.args.max_question_length]
 
+                question_not_lower = [
+                    token for (token, offset) in qa['question_tokens']
+                ][:self.args.max_question_length]
+
                 # Select the first answer span, which is formatted as
                 # (start_position, end_position), where the end_position
                 # is inclusive.
                 answers = qa['detected_answers']
                 answer_start, answer_end = answers[0]['token_spans'][0]
                 samples.append(
-                    (qid, passage, question, answer_start, answer_end)
+                    (qid, passage, question, answer_start, answer_end, passage_not_lower, question_not_lower)
                 )
                 # print('Question: ', qa['question'])
                 # print('Start: ', answer_start)
@@ -323,9 +331,11 @@ class QADataset(Dataset):
         questions = []
         start_positions = []
         end_positions = []
+        passages_not_lower = []
+        questions_not_lower = []
         for idx in example_idxs:
             # Unpack QA sample and tokenize passage/question.
-            qid, passage, question, answer_start, answer_end = self.samples[idx]
+            qid, passage, question, answer_start, answer_end, passage_not_lower, questions_not_lower = self.samples[idx]
 
             # Convert words to tensor.
             passage_ids = torch.tensor(
@@ -342,8 +352,10 @@ class QADataset(Dataset):
             questions.append(question_ids)
             start_positions.append(answer_start_ids)
             end_positions.append(answer_end_ids)
+            passages_not_lower.append(passage_not_lower)
+            questions_not_lower.append(question_not_lower)
 
-        return zip(passages, questions, start_positions, end_positions)
+        return zip(passages, questions, start_positions, end_positions, passages_not_lower, questions_not_lower)
 
     def _create_batches(self, generator, batch_size):
         """
@@ -378,6 +390,8 @@ class QADataset(Dataset):
             questions = []
             start_positions = torch.zeros(bsz)
             end_positions = torch.zeros(bsz)
+            passages_not_lower = []
+            questions_not_lower = []
             max_passage_length = 0
             max_question_length = 0
             # Check max lengths for both passages and questions
@@ -386,6 +400,8 @@ class QADataset(Dataset):
                 questions.append(current_batch[ii][1])
                 start_positions[ii] = current_batch[ii][2]
                 end_positions[ii] = current_batch[ii][3]
+                passages_not_lower.append(current_batch[ii][4])
+                questions_not_lower.append(current_batch[ii][5])
                 max_passage_length = max(
                     max_passage_length, len(current_batch[ii][0])
                 )
@@ -408,7 +424,9 @@ class QADataset(Dataset):
                 'passages': cuda(self.args, padded_passages).long(),
                 'questions': cuda(self.args, padded_questions).long(),
                 'start_positions': cuda(self.args, start_positions).long(),
-                'end_positions': cuda(self.args, end_positions).long()
+                'end_positions': cuda(self.args, end_positions).long(),
+                'passages_not_lower': passages_not_lower,
+                'questions_not_lower': questions_not_lower
             }
 
             if no_more_data:
