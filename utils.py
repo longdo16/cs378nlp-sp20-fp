@@ -199,9 +199,9 @@ def search_span_endpoints(start_probs, end_probs, passage, question, window=15):
     #             max_joint_prob = joint_prob
     #             max_end_index = end_index
 
-    # max_start_index = -1
-    # max_end_index = -1
-    # max_joint_prob = 0
+    max_start_index = -1
+    max_end_index = -1
+    max_joint_prob = 0
 
     for span in list_spans:
         max_start, max_end = span
