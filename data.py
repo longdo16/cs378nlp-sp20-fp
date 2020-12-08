@@ -203,8 +203,8 @@ class QADataset(Dataset):
 
                 temp = ''
 
-                # for sent in doc_question.sents:
-                #     roots_question =[st.stem(chunk.root.head.text.lower()) for chunk in sent.noun_chunks]
+                for sent in doc_question.sents:
+                    roots_question =[st.stem(chunk.root.head.text.lower()) for chunk in sent.noun_chunks]
 
                 p = ''
 
@@ -218,7 +218,7 @@ class QADataset(Dataset):
 
                     # roots_context = [st.stem(chunk.root.head.text.lower()) for chunk in sent.noun_chunks]
 
-                    context_name_ents = [str(ent) for ent in doc.ents]
+                    # context_name_ents = [str(ent) for ent in doc.ents]
 
                     added = False
 
