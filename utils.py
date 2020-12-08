@@ -130,6 +130,8 @@ def search_span_endpoints(start_probs, end_probs, passage, question, window=15):
     nlp = spacy.load('en_core_web_sm')
     list_spans = list()
 
+    print(passage)
+
     doc_context = nlp(passage)
     doc_question = nlp(question)
 
