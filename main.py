@@ -434,9 +434,6 @@ def write_predictions(args, model, dataset):
                 start_index, end_index = search_span_endpoints(
                         start_probs, end_probs, passage_not_lower, question_not_lower
                 )
-
-                print('Question: ', question)
-                print('Context: ', passage)
                 
                 # Grab predicted span.
                 pred_span = ' '.join(passage[start_index:(end_index + 1)])
