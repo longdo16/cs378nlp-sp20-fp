@@ -199,7 +199,7 @@ class QADataset(Dataset):
                 doc_context = nlp(non_tokenized_context)
                 doc_question = nlp(non_tokenized_question)
 
-                question_name_ents = [str(ent) for ent in doc_question.ents]
+                # question_name_ents = [str(ent) for ent in doc_question.ents]
 
                 temp = ''
 
@@ -216,7 +216,7 @@ class QADataset(Dataset):
 
                     doc = nlp(str(sent))
 
-                    # roots_context = [st.stem(chunk.root.head.text.lower()) for chunk in sent.noun_chunks]
+                    roots_context = [st.stem(chunk.root.head.text.lower()) for chunk in sent.noun_chunks]
 
                     # context_name_ents = [str(ent) for ent in doc.ents]
 
