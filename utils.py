@@ -12,6 +12,8 @@ import pickle
 import torch
 from tqdm import tqdm
 
+import spacy
+from nltk.stem.lancaster import LancasterStemmer
 
 def cuda(args, tensor):
     """
@@ -124,18 +126,58 @@ def search_span_endpoints(start_probs, end_probs, passage, question, window=15):
         Optimal starting and ending indices for the answer span. Note that the
         chosen end index is *inclusive*.
     """
-    print(question)
-    print(passage)
-    raise RuntimeError("Debug")
-    max_start_index = start_probs.index(max(start_probs))
-    max_end_index = -1
-    max_joint_prob = 0.
+    st = LancasterStemmer()
+    nlp = spacy.load('en_core_web_sm')
+    list_spans = list()
 
-    for end_index in range(len(end_probs)):
-        if max_start_index <= end_index <= max_start_index + window:
-            joint_prob = start_probs[max_start_index] * end_probs[end_index]
-            if joint_prob > max_joint_prob:
-                max_joint_prob = joint_prob
-                max_end_index = end_index
+    doc_context = nlp(passage)
+    doc_question = nlp(question)
+
+    question_name_ents = [str(ent) for ent in doc_question.ents]
+
+    start = 0
+
+    for sent in doc_context.sents:
+
+        context_name_ents = [str(ent) for ent in sent.ents]
+
+        end = start + len(str(sent).split(' '))
+
+        added = False
+
+        for i in question_name_ents:
+            for j in context_name_ents:
+                if i in j or j in i:
+                    list_spans.append((start, end))
+                    added = True
+                    break
+            if added:
+                break
+
+    # max_start_index = start_probs.index(max(start_probs))
+    # max_end_index = -1
+    # max_joint_prob = 0.
+
+    # for end_index in range(len(end_probs)):
+    #     if max_start_index <= end_index <= max_start_index + window:
+    #         joint_prob = start_probs[max_start_index] * end_probs[end_index]
+    #         if joint_prob > max_joint_prob:
+    #             max_joint_prob = joint_prob
+    #             max_end_index = end_index
+
+    max_start_index = -1
+    max_end_index = -1
+    max_joint_prob = 0
+
+    for span in list_spans:
+        max_start, max_end = span
+
+        for i in range(max_start, max_end):
+            for j in range(max_start + 1, max_end):
+                joint_prob = start_probs[i] * end_probs[j]
+                if joint_prob > max_joint_prob:
+                    max_start_index = i
+                    max_end_index = j
+                    max_joint_prob = joint_prob
 
     return (max_start_index, max_end_index)
