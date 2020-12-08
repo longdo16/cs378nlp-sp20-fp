@@ -154,6 +154,21 @@ def search_span_endpoints(start_probs, end_probs, passage, question, window=15):
             if added:
                 break
 
+    for span in list_spans:
+        max_start_index = start_probs.index(max(start_probs[span[0]: span[1]]))
+        max_end_index = -1
+        max_joint_prob = 0.
+
+        for end_index in range(max_start_index, span[1]):
+            if max_start_index <= end_index <= max_start_index + window:
+                joint_prob = start_probs[max_start_index] * end_probs[end_index]
+                if joint_prob > max_joint_prob:
+                    max_joint_prob = joint_prob
+                    max_end_index = end_index
+
+
+
+
     # max_start_index = start_probs.index(max(start_probs))
     # max_end_index = -1
     # max_joint_prob = 0.
@@ -165,19 +180,19 @@ def search_span_endpoints(start_probs, end_probs, passage, question, window=15):
     #             max_joint_prob = joint_prob
     #             max_end_index = end_index
 
-    max_start_index = -1
-    max_end_index = -1
-    max_joint_prob = 0
+    # max_start_index = -1
+    # max_end_index = -1
+    # max_joint_prob = 0
 
-    for span in list_spans:
-        max_start, max_end = span
+    # for span in list_spans:
+    #     max_start, max_end = span
 
-        for i in range(max_start, max_end):
-            for j in range(max_start + 1, max_end):
-                joint_prob = start_probs[i] * end_probs[j]
-                if joint_prob > max_joint_prob:
-                    max_start_index = i
-                    max_end_index = j
-                    max_joint_prob = joint_prob
+    #     for i in range(max_start, max_end):
+    #         for j in range(max_start + 1, max_end):
+    #             joint_prob = start_probs[i] * end_probs[j]
+    #             if joint_prob > max_joint_prob:
+    #                 max_start_index = i
+    #                 max_end_index = j
+    #                 max_joint_prob = joint_prob
 
     return (max_start_index, max_end_index)
