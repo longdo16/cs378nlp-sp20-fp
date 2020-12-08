@@ -137,7 +137,7 @@ def search_span_endpoints(start_probs, end_probs, passage, question, window=15):
 
     roots_question = list()
 
-    for sent in doc_question:
+    for sent in doc_question.sents:
         roots_question = [st.stem(chunk.root.head.text.lower()) for chunk in sent.noun_chunks]
 
     start = 0
