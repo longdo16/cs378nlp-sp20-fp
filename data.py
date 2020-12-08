@@ -224,23 +224,23 @@ class QADataset(Dataset):
 
                     # print(sent)
 
-                    # for root in roots_question:
-                    #     if root in roots_context:
-                    #         temp += str(sent) + ' '
-                    #         added = True
-                    #         # print('Here 1')
-                    #         break
+                    for root in roots_question:
+                        if root in roots_context:
+                            temp += str(sent) + ' '
+                            added = True
+                            # print('Here 1')
+                            break
 
-                    if not added:
-                        for q_ent in question_name_ents:
-                            for c_ent in context_name_ents:
-                                if q_ent in c_ent or c_ent in q_ent:
-                                    temp += str(sent) + ' '
-                                    added = True
-                                    # print('Here 2')
-                                    break
-                            if added:
-                                break
+                    # if not added:
+                    #     for q_ent in question_name_ents:
+                    #         for c_ent in context_name_ents:
+                    #             if q_ent in c_ent or c_ent in q_ent:
+                    #                 temp += str(sent) + ' '
+                    #                 added = True
+                    #                 # print('Here 2')
+                    #                 break
+                    #         if added:
+                    #             break
 
                     if not added:
                         tmp = str(sent)
