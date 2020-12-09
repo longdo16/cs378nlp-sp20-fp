@@ -222,7 +222,7 @@ class QADataset(Dataset):
 
                         temp = temp[0: -1]
 
-                        passage_final = [chunk.lower() for chunk in temp][:self.args.max_context_length]
+                        passage = [chunk.lower() for chunk in temp][:self.args.max_context_length]
                 
 
 
