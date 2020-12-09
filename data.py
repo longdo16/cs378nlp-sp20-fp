@@ -199,7 +199,7 @@ class QADataset(Dataset):
                     token.lower() for (token, offset) in qa['question_tokens']
                 ][:self.args.max_question_length]
 
-                if 'when' in question:
+                if 'name' in question:
                     doc_context = nlp(non_tokenized_context)
 
                     temp = ''
@@ -207,17 +207,17 @@ class QADataset(Dataset):
                     for sent in doc_context.sents:
                         doc = nlp(str(sent))
 
-                        name_ents = [str(ent.label_) for ent in doc.ents]
+                        # name_ents = [str(ent.label_) for ent in doc.ents]
 
                         added = False
 
-                        if 'EVENT' in name_ents or 'DATE' in name_ents or 'TIME' in name_ents:
-                            temp += str(sent) + ' '
-                            added = True
-
-                        # if len(doc.ents) > 0:
+                        # if 'EVENT' in name_ents or 'DATE' in name_ents or 'TIME' in name_ents:
                         #     temp += str(sent) + ' '
                         #     added = True
+
+                        if len(doc.ents) > 0:
+                            temp += str(sent) + ' '
+                            added = True
 
                         if not added:
                             tmp = str(sent)
