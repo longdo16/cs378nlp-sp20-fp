@@ -199,7 +199,7 @@ class QADataset(Dataset):
                     token.lower() for (token, offset) in qa['question_tokens']
                 ][:self.args.max_question_length]
 
-                if 'name' in question or 'which' in question or 'place' in question or 'who' in question:
+                if 'name' in question:
                     doc_context = nlp(non_tokenized_context)
 
                     temp = ''
@@ -222,7 +222,7 @@ class QADataset(Dataset):
 
                         temp = temp[0: -1]
 
-                        passage = [chunk.lower() for chunk in temp][:self.args.max_context_length]
+                        passage = [chunk.lower() for chunk in temp]
                 
 
 
