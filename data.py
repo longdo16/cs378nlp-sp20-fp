@@ -188,11 +188,45 @@ class QADataset(Dataset):
             # Each passage has several questions associated with it.
             # Additionally, each question has multiple possible answer spans.
             # print(elem['context'])
+
             for qa in elem['qas']:
 
                 # print('Passage: ', passage)
 
-                # non_tokenized_context = ' '.join(passage)
+                non_tokenized_context = ' '.join(passage_not_lower)
+
+                question = [
+                    token.lower() for (token, offset) in qa['question_tokens']
+                ][:self.args.max_question_length]
+
+                if 'name' in question:
+                    doc_context = nlp(non_tokenized_context)
+
+                    temp = ''
+
+                    for sent in doc_context.sents:
+                        doc = nlp(str(sent))
+
+                        added = False
+
+                        if len(doc.ents) > 0:
+                            temp += str(sent) + ' '
+                            added = True
+
+                        if not added:
+                            tmp = str(sent)
+                            tmp = tmp.split(' ')
+                            tmp = [PAD_TOKEN] * len(tmp)
+                            tmp = ' '.join(tmp)
+                            temp += tmp + ' '
+
+                        temp = temp[0: -1]
+
+                        passage = [chunk.lower() for chunk in temp][:self.args.max_context_length]
+                
+
+
+
                 # # print('NT: ', non_tokenized_context)
                 # # print(non_tokenized_context.split(' '))
                 # non_tokenized_question = qa['question']
@@ -283,9 +317,7 @@ class QADataset(Dataset):
                 #     raise RuntimeError('Debug')
 
                 qid = qa['qid']
-                question = [
-                    token.lower() for (token, offset) in qa['question_tokens']
-                ][:self.args.max_question_length]
+                
 
                 question_not_lower = [
                     token for (token, offset) in qa['question_tokens']
@@ -335,7 +367,7 @@ class QADataset(Dataset):
         questions_not_lower = []
         for idx in example_idxs:
             # Unpack QA sample and tokenize passage/question.
-            qid, passage, question, answer_start, answer_end, passage_not_lower, question_not_lower = self.samples[idx]
+            qid, passage, question, answer_start, answer_end, passage_not_lower, question4_not_lower = self.samples[idx]
 
             # Convert words to tensor.
             passage_ids = torch.tensor(
