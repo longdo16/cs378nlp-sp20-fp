@@ -126,11 +126,27 @@ def search_span_endpoints(start_probs, end_probs, passage, question, window=15):
         Optimal starting and ending indices for the answer span. Note that the
         chosen end index is *inclusive*.
     """
-    # st = LancasterStemmer()
-    # nlp = spacy.load('en_core_web_sm')
-    # list_spans = list()
+    st = LancasterStemmer()
+    nlp = spacy.load('en_core_web_sm')
+    list_spans = list()
 
-    # doc_context = nlp(' '.join(passage))
+    doc_context = nlp(' '.join(passage))
+
+    if 'name' in question or 'Name' in question:
+
+        start = 0
+        for sent in doc_context.sents:
+            doc = nlp(str(sent))
+
+            end = start + len(str(sent).split(' '))
+
+            if len(doc.ents) > 0:
+                list_spans.append((start,end))
+
+            start = end
+
+
+
     # doc_question = nlp(' '.join(question))
 
     # question_name_ents = [str(ent) for ent in doc_question.ents]
@@ -188,30 +204,30 @@ def search_span_endpoints(start_probs, end_probs, passage, question, window=15):
 
 
 
-    max_start_index = start_probs.index(max(start_probs))
-    max_end_index = -1
-    max_joint_prob = 0.
-
-    for end_index in range(len(end_probs)):
-        if max_start_index <= end_index <= max_start_index + window:
-            joint_prob = start_probs[max_start_index] * end_probs[end_index]
-            if joint_prob > max_joint_prob:
-                max_joint_prob = joint_prob
-                max_end_index = end_index
-
-    # max_start_index = -1
+    # max_start_index = start_probs.index(max(start_probs))
     # max_end_index = -1
-    # max_joint_prob = 0
+    # max_joint_prob = 0.
 
-    # for span in list_spans:
-    #     max_start, max_end = span
+    # for end_index in range(len(end_probs)):
+    #     if max_start_index <= end_index <= max_start_index + window:
+    #         joint_prob = start_probs[max_start_index] * end_probs[end_index]
+    #         if joint_prob > max_joint_prob:
+    #             max_joint_prob = joint_prob
+    #             max_end_index = end_index
 
-    #     for i in range(max_start, max_end):
-    #         for j in range(max_start + 1, max_end):
-    #             joint_prob = start_probs[i] * end_probs[j]
-    #             if joint_prob > max_joint_prob:
-    #                 max_start_index = i
-    #                 max_end_index = j
-    #                 max_joint_prob = joint_prob
+    max_start_index = -1
+    max_end_index = -1
+    max_joint_prob = 0
+
+    for span in list_spans:
+        max_start, max_end = span
+
+        for i in range(max_start, max_end):
+            for j in range(max_start + 1, max_end):
+                joint_prob = start_probs[i] * end_probs[j]
+                if joint_prob > max_joint_prob:
+                    max_start_index = i
+                    max_end_index = j
+                    max_joint_prob = joint_prob
 
     return (max_start_index, max_end_index)
