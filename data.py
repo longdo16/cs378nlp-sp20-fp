@@ -209,19 +209,19 @@ class QADataset(Dataset):
 
                         name_ents = [str(ent.label_) for ent in doc.ents]
 
-                        added = False
-
                         # if 'EVENT' in name_ents or 'DATE' in name_ents or 'TIME' in name_ents:
                         #     temp += str(sent) + ' '
                         #     added = True
 
-                        if 'PERSON' in name_ents or 'ORG' in name_ents:
-                            temp += str(sent) + ' '
-                            added = True
-
-                        # if len(doc.ents) > 0:
+                        # if 'PERSON' in name_ents or 'ORG' in name_ents:
                         #     temp += str(sent) + ' '
                         #     added = True
+
+                        added = False
+
+                        if len(doc.ents) > 0:
+                            temp += str(sent) + ' '
+                            added = True
 
                         if not added:
                             tmp = str(sent)
