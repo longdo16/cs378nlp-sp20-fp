@@ -199,7 +199,7 @@ class QADataset(Dataset):
                     token.lower() for (token, offset) in qa['question_tokens']
                 ][:self.args.max_question_length]
 
-                if 'name' in question:
+                if 'who' in question:
                     doc_context = nlp(non_tokenized_context)
 
                     temp = ''
@@ -207,7 +207,7 @@ class QADataset(Dataset):
                     for sent in doc_context.sents:
                         doc = nlp(str(sent))
 
-                        # name_ents = [str(ent.label_) for ent in doc.ents]
+                        name_ents = [str(ent.label_) for ent in doc.ents]
 
                         added = False
 
@@ -215,9 +215,13 @@ class QADataset(Dataset):
                         #     temp += str(sent) + ' '
                         #     added = True
 
-                        if len(doc.ents) > 0:
+                        if 'PERSON' in name_ents or 'ORG' in name_ents:
                             temp += str(sent) + ' '
                             added = True
+
+                        # if len(doc.ents) > 0:
+                        #     temp += str(sent) + ' '
+                        #     added = True
 
                         if not added:
                             tmp = str(sent)
