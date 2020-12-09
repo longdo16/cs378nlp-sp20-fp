@@ -226,9 +226,9 @@ class QADataset(Dataset):
                             tmp = ' '.join(tmp)
                             temp += tmp + ' '
 
-                        temp = temp[0: -1]
+                    temp = temp[0: -1]
 
-                        passage = [chunk.lower() for chunk in temp][:self.args.max_context_length]
+                    passage = [chunk.lower() for chunk in temp][:self.args.max_context_length]
 
                 
 
@@ -335,8 +335,6 @@ class QADataset(Dataset):
                 # is inclusive.
                 answers = qa['detected_answers']
                 answer_start, answer_end = answers[0]['token_spans'][0]
-                print(passage)
-                raise RuntimeError('Debug')
                 samples.append(
                     (qid, passage, question, answer_start, answer_end, passage_not_lower, question_not_lower)
                 )
