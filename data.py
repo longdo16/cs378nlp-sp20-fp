@@ -367,7 +367,7 @@ class QADataset(Dataset):
         questions_not_lower = []
         for idx in example_idxs:
             # Unpack QA sample and tokenize passage/question.
-            qid, passage, question, answer_start, answer_end, passage_not_lower, question4_not_lower = self.samples[idx]
+            qid, passage, question, answer_start, answer_end, passage_not_lower, question_not_lower = self.samples[idx]
 
             # Convert words to tensor.
             passage_ids = torch.tensor(
