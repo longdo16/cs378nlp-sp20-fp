@@ -199,7 +199,7 @@ class QADataset(Dataset):
                     token.lower() for (token, offset) in qa['question_tokens']
                 ][:self.args.max_question_length]
 
-                if 'name' in question:
+                if 'who' in question:
                     doc_context = nlp(non_tokenized_context)
 
                     temp = ''
