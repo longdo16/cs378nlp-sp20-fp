@@ -160,15 +160,15 @@ def search_span_endpoints(start_probs, end_probs, passage, question, window=15):
             if added:
                 break
 
-
-        # for i in question_name_ents:
-        #     for j in context_name_ents:
-        #         if i in j or j in i:
-        #             list_spans.append((start, end))
-        #             added = True
-        #             break
-        #     if added:
-        #         break
+        if added:
+            for i in question_name_ents:
+                for j in context_name_ents:
+                    if i in j or j in i:
+                        list_spans.append((start, end))
+                        added = True
+                        break
+                if added:
+                    break
 
     # max_start_index = -1
     # max_end_index = -1
