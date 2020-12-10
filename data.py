@@ -164,11 +164,11 @@ class QADataset(Dataset):
         samples = []
 
         count = 0
-        count_name = 0
-        count_who = 0
-        count_when = 0
 
         for elem in self.elems:
+
+            if count % 1000 == 0:
+                print(count)
 
             # Unpack the context paragraph. Shorten to max sequence length.
 
@@ -190,7 +190,6 @@ class QADataset(Dataset):
             # print(elem['context'])
 
             for qa in elem['qas']:
-                count += 1
 
                 # print('Passage: ', passage)
 
@@ -200,22 +199,15 @@ class QADataset(Dataset):
                     token.lower() for (token, offset) in qa['question_tokens']
                 ][:self.args.max_question_length]
 
-                if 'name' in question:
-                    count_name += 1
                 if 'who' in question:
-                    count_who += 1
-                if 'when' in question:
-                    count_when += 1
+                    doc_context = nlp(non_tokenized_context)
 
-                # if 'who' in question:
-                #     doc_context = nlp(non_tokenized_context)
+                    temp = ''
 
-                #     temp = ''
+                    for sent in doc_context.sents:
+                        doc = nlp(str(sent))
 
-                #     for sent in doc_context.sents:
-                #         doc = nlp(str(sent))
-
-                #         name_ents = [str(ent.label_) for ent in doc.ents]
+                        name_ents = [str(ent.label_) for ent in doc.ents]
 
                         # if 'EVENT' in name_ents or 'DATE' in name_ents or 'TIME' in name_ents:
                         #     temp += str(sent) + ' '
@@ -225,22 +217,22 @@ class QADataset(Dataset):
                         #     temp += str(sent) + ' '
                         #     added = True
 
-                    #     added = False
+                        added = False
 
-                    #     if len(doc.ents) > 0:
-                    #         temp += str(sent) + ' '
-                    #         added = True
+                        if len(doc.ents) > 0:
+                            temp += str(sent) + ' '
+                            added = True
 
-                    #     if not added:
-                    #         tmp = str(sent)
-                    #         tmp = tmp.split(' ')
-                    #         tmp = [PAD_TOKEN] * len(tmp)
-                    #         tmp = ' '.join(tmp)
-                    #         temp += tmp + ' '
+                        if not added:
+                            tmp = str(sent)
+                            tmp = tmp.split(' ')
+                            tmp = [PAD_TOKEN] * len(tmp)
+                            tmp = ' '.join(tmp)
+                            temp += tmp + ' '
 
-                    # temp = temp[0: -1]
+                    temp = temp[0: -1]
 
-                    # passage = [chunk.lower() for chunk in temp][:self.args.max_context_length]
+                    passage = [chunk.lower() for chunk in temp][:self.args.max_context_length]
 
                 
 
@@ -355,10 +347,7 @@ class QADataset(Dataset):
                 # print('End: ', answer_end)
                 # print('Answer: ', qa['answers'])
                 # print('\n\n')
-        print('Total: ', count)
-        print('Name: ', count_name)
-        print('Who: ', count_who)
-        print('When: ', count_when)
+            count += 1
                 
         return samples
 
