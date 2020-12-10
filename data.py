@@ -356,6 +356,9 @@ class QADataset(Dataset):
                 # print('Answer: ', qa['answers'])
                 # print('\n\n')
         print('Total: ', count)
+        print('Name: ', count_name)
+        print('Who: ', count_who)
+        print('When: ', count_when)
                 
         return samples
 
