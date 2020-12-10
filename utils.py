@@ -133,113 +133,113 @@ def search_span_endpoints(start_probs, end_probs, passage, question, window=15):
     doc_context = nlp(' '.join(passage))
 
 
-    if 'name' in question or 'Name' in question:
+    # if 'name' in question or 'Name' in question:
 
-        start = 0
-        for sent in doc_context.sents:
-            doc = nlp(str(sent))
+    #     start = 0
+    #     for sent in doc_context.sents:
+    #         doc = nlp(str(sent))
 
-            end = start + len(str(sent).split(' '))
+    #         end = start + len(str(sent).split(' '))
 
-            if len(doc.ents) > 0:
-                list_spans.append((start,end))
+    #         if len(doc.ents) > 0:
+    #             list_spans.append((start,end))
 
-            start = end
+    #         start = end
 
 
 
-    # doc_question = nlp(' '.join(question))
+    # # doc_question = nlp(' '.join(question))
 
-    # question_name_ents = [str(ent) for ent in doc_question.ents]
+    # # question_name_ents = [str(ent) for ent in doc_question.ents]
 
-    # roots_question = list()
+    # # roots_question = list()
 
-    # for sent in doc_question.sents:
-    #     roots_question = [st.stem(chunk.root.head.text.lower()) for chunk in sent.noun_chunks]
+    # # for sent in doc_question.sents:
+    # #     roots_question = [st.stem(chunk.root.head.text.lower()) for chunk in sent.noun_chunks]
 
-    # start = 0
+    # # start = 0
 
-    # for sent in doc_context.sents:
+    # # for sent in doc_context.sents:
 
-    #     context_name_ents = [str(ent) for ent in sent.ents]
+    # #     context_name_ents = [str(ent) for ent in sent.ents]
 
-    #     roots_context = [st.stem(chunk.root.head.text.lower()) for chunk in sent.noun_chunks]
+    # #     roots_context = [st.stem(chunk.root.head.text.lower()) for chunk in sent.noun_chunks]
 
-    #     end = start + len(str(sent).split(' '))
+    # #     end = start + len(str(sent).split(' '))
 
-    #     added = False
+    # #     added = False
 
-    #     for root in roots_question:
-    #         if root in roots_context:
-    #             list_spans.append((start, end))
-    #             added = True
-    #             break
-    #         if added:
-    #             break
+    # #     for root in roots_question:
+    # #         if root in roots_context:
+    # #             list_spans.append((start, end))
+    # #             added = True
+    # #             break
+    # #         if added:
+    # #             break
 
-    #     if added:
-    #         for i in question_name_ents:
-    #             for j in context_name_ents:
-    #                 if i in j or j in i:
-    #                     list_spans.append((start, end))
-    #                     added = True
-    #                     break
-    #             if added:
-    #                 break
+    # #     if added:
+    # #         for i in question_name_ents:
+    # #             for j in context_name_ents:
+    # #                 if i in j or j in i:
+    # #                     list_spans.append((start, end))
+    # #                     added = True
+    # #                     break
+    # #             if added:
+    # #                 break
 
-    # max_start_index = -1
-    # max_end_index = -1
+    # # max_start_index = -1
+    # # max_end_index = -1
 
-    # for span in list_spans:
-    #     max_start_index = start_probs.index(max(start_probs[span[0]: span[1]]))
+    # # for span in list_spans:
+    # #     max_start_index = start_probs.index(max(start_probs[span[0]: span[1]]))
+    # #     max_end_index = -1
+    # #     max_joint_prob = 0.
+
+    # #     for end_index in range(max_start_index, span[1]):
+    # #         if max_start_index <= end_index <= max_start_index + window:
+    # #             joint_prob = start_probs[max_start_index] * end_probs[end_index]
+    # #             if joint_prob > max_joint_prob:
+    # #                 max_joint_prob = joint_prob
+    # #                 max_end_index = end_index
+
+
+
+
+    # # max_start_index = start_probs.index(max(start_probs))
+    # # max_end_index = -1
+    # # max_joint_prob = 0.
+
+    # # for end_index in range(len(end_probs)):
+    # #     if max_start_index <= end_index <= max_start_index + window:
+    # #         joint_prob = start_probs[max_start_index] * end_probs[end_index]
+    # #         if joint_prob > max_joint_prob:
+    # #             max_joint_prob = joint_prob
+    # #             max_end_index = end_index
+
+    #     max_start_index = -1
     #     max_end_index = -1
-    #     max_joint_prob = 0.
+    #     max_joint_prob = 0
 
-    #     for end_index in range(max_start_index, span[1]):
-    #         if max_start_index <= end_index <= max_start_index + window:
-    #             joint_prob = start_probs[max_start_index] * end_probs[end_index]
-    #             if joint_prob > max_joint_prob:
-    #                 max_joint_prob = joint_prob
-    #                 max_end_index = end_index
+    #     for span in list_spans:
+    #         max_start, max_end = span
 
+    #         for i in range(max_start, max_end):
+    #             for j in range(max_start + 1, max_end):
+    #                 joint_prob = start_probs[i] * end_probs[j]
+    #                 if joint_prob > max_joint_prob:
+    #                     max_start_index = i
+    #                     max_end_index = j
+    #                     max_joint_prob = joint_prob
+    # else:
+    max_start_index = start_probs.index(max(start_probs))
+    max_end_index = -1
+    max_joint_prob = 0.
 
-
-
-    # max_start_index = start_probs.index(max(start_probs))
-    # max_end_index = -1
-    # max_joint_prob = 0.
-
-    # for end_index in range(len(end_probs)):
-    #     if max_start_index <= end_index <= max_start_index + window:
-    #         joint_prob = start_probs[max_start_index] * end_probs[end_index]
-    #         if joint_prob > max_joint_prob:
-    #             max_joint_prob = joint_prob
-    #             max_end_index = end_index
-
-        max_start_index = -1
-        max_end_index = -1
-        max_joint_prob = 0
-
-        for span in list_spans:
-            max_start, max_end = span
-
-            for i in range(max_start, max_end):
-                for j in range(max_start + 1, max_end):
-                    joint_prob = start_probs[i] * end_probs[j]
-                    if joint_prob > max_joint_prob:
-                        max_start_index = i
-                        max_end_index = j
-                        max_joint_prob = joint_prob
-    else:
-        max_start_index = start_probs.index(max(start_probs))
-        max_end_index = -1
-        max_joint_prob = 0.
-
-        for end_index in range(len(end_probs)):
-            if max_start_index <= end_index <= max_start_index + window:
-                joint_prob = start_probs[max_start_index] * end_probs[end_index]
-                if joint_prob > max_joint_prob:
-                    max_joint_prob = joint_prob
-                    max_end_index = end_index
+    for end_index in range(len(end_probs)):
+        if max_start_index <= end_index <= max_start_index + window:
+            joint_prob = start_probs[max_start_index] * end_probs[end_index]
+            if joint_prob > max_joint_prob:
+                max_joint_prob = joint_prob
+                max_end_index = end_index
 
     return (max_start_index, max_end_index)

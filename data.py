@@ -164,11 +164,11 @@ class QADataset(Dataset):
         samples = []
 
         count = 0
+        count_name = 0
+        count_who = 0
+        count_when = 0
 
         for elem in self.elems:
-
-            if count % 1000 == 0:
-                print(count)
 
             # Unpack the context paragraph. Shorten to max sequence length.
 
@@ -190,6 +190,7 @@ class QADataset(Dataset):
             # print(elem['context'])
 
             for qa in elem['qas']:
+                count += 1
 
                 # print('Passage: ', passage)
 
@@ -198,6 +199,13 @@ class QADataset(Dataset):
                 question = [
                     token.lower() for (token, offset) in qa['question_tokens']
                 ][:self.args.max_question_length]
+
+                if 'name' in question:
+                    count_name += 1
+                if 'who' in question:
+                    count_who += 1
+                if 'when' in question:
+                    count_when += 1
 
                 # if 'who' in question:
                 #     doc_context = nlp(non_tokenized_context)
@@ -347,7 +355,7 @@ class QADataset(Dataset):
                 # print('End: ', answer_end)
                 # print('Answer: ', qa['answers'])
                 # print('\n\n')
-            count += 1
+        print('Total: ', count)
                 
         return samples
 
